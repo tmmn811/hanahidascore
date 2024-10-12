@@ -38,7 +38,7 @@
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            width: 60px;
+            width: calc(100% / 4 - 20px); /* 幅をテンキーと揃える */
         }
 
         .btn.transparent {
@@ -57,12 +57,12 @@
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* テンキーの列を3つに設定 */
-            gap: 10px;
+            gap: 5px; /* 余白を減らしてボタンを大きく */
             justify-items: center; /* 中央揃えにする */
         }
 
         .keypad .btn {
-            width: 60px;
+            width: calc(100% / 3 - 10px); /* テンキーの幅を広げる */
             height: 60px;
             font-size: 24px;
         }
@@ -90,7 +90,7 @@
         <div id="month-buttons">
             <!-- 月ボタンがここに生成されます -->
         </div>
-        <div class="current-month" id="current-month-display">2月 10点</div>
+        <div class="current-month" id="current-month-display">1月 - 点</div> <!-- デフォルトは1月が選択 -->
         <div class="keypad" id="keypad">
             <!-- 数字キーパッド -->
             <button class="btn">1</button>
@@ -106,14 +106,14 @@
             <button class="btn">0</button> <!-- 0 -->
             <button class="btn">✓</button> <!-- ✔︎ -->
         </div>
-        <button class="end-button">おわり</button>
+        <button class="end-button" id="end-button">おわり</button>
     </div>
 
     <script>
         let totalScore = 0;
         const months = 12;  // 6ヶ月または12ヶ月
         let scores = Array(months).fill(null);  // 各月のスコア (null は未入力)
-        let currentMonth = null;
+        let currentMonth = 1;  // デフォルトは1月
         let currentScore = "";
 
         const monthButtonsContainer = document.getElementById('month-buttons');
@@ -147,7 +147,7 @@
 
         // 現在の月の表示を更新
         function updateCurrentMonthDisplay() {
-            currentMonthDisplay.textContent = `${currentMonth}月 ${currentScore || 0}点`;
+            currentMonthDisplay.textContent = `${currentMonth}月 ${currentScore !== "" ? currentScore : "-"}点`; // nullの場合は"-"
         }
 
         // キーパッドの動作
@@ -187,6 +187,20 @@
 
                 updateCurrentMonthDisplay();
             });
+        });
+
+        // 「おわり」ボタンの処理
+        document.getElementById('end-button').addEventListener('click', function() {
+            if (confirm("本当に終了しますか？")) {
+                // トップに戻る処理
+                scores = Array(months).fill(null);  // スコアをリセット
+                totalScore = 0;
+                currentMonth = 1;
+                currentScore = "";
+                createMonthButtons();  // ボタンを再生成
+                updateCurrentMonthDisplay();
+                totalScoreDisplay.textContent = totalScore;
+            }
         });
 
         createMonthButtons();

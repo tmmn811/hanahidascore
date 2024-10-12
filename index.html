@@ -6,7 +6,7 @@
     <title>花札 スコア記録</title>
     <style>
         body {
-            background-image: url('bg.png');
+            background-image: url('ベージュ 和風 和柄の背景 インスタグラムストーリー.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: auto;
+            overflow-y: auto; /* ページ全体のスクロールを有効に */
         }
 
         .container {
@@ -25,9 +25,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 90%;
             max-width: 400px;
-            max-height: 90vh;
-            overflow-y: auto;
-            margin: 0 auto; /* 白背景の中央に揃える */
+            margin: 0 auto; /* 中央揃え */
+            /* overflow-y: auto; 白枠内のスクロールを無効化 */
         }
 
         .screen {

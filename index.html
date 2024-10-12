@@ -57,13 +57,14 @@
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* テンキーの列を3つに設定 */
-            gap: 5px; /* 余白を減らしてボタンを大きく */
+            gap: 15px; /* 余白を適度に調整して押しやすく */
             justify-items: center; /* 中央揃えにする */
+            padding: 0 20px; /* 余白の追加でテンキーが広がるように */
         }
 
         .keypad .btn {
-            width: calc(100% / 3 - 10px); /* テンキーの幅を広げる */
-            height: 60px;
+            width: 100%; /* テンキーの幅を広げる */
+            height: 70px; /* 高さも少し増加 */
             font-size: 24px;
         }
 

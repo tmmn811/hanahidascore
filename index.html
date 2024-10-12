@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: auto; /* スクロールできるように変更 */
+            overflow: auto;
         }
 
         .container {
@@ -26,7 +26,7 @@
             width: 90%;
             max-width: 400px;
             max-height: 90vh;
-            overflow-y: auto; /* コンテナ内でスクロールできるように */
+            overflow-y: auto;
         }
 
         .screen {
@@ -67,34 +67,15 @@
             padding: 5px;
             font-size: 16px;
         }
-
-        .split-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 80vh; /* モード画面全体を2分割 */
-        }
-
-        .player-screen {
-            width: 100%;
-            padding: 20px;
-            border: 2px solid #d4a373;
-        }
-
-        .rotated {
-            transform: rotate(180deg);
-        }
     </style>
 </head>
 <body>
     <!-- ホーム画面 -->
     <div id="home-screen" class="container screen active">
         <h1>花札 スコア記録</h1>
+        <p>記録する月数を選択してください</p>
         <button id="six-months" class="btn">6ヶ月</button>
         <button id="twelve-months" class="btn">12ヶ月</button>
-        <br>
-        <button id="single-player" class="btn">ひとり</button>
-        <button id="two-player" class="btn">ふたり</button>
     </div>
 
     <!-- ひとりモード -->
@@ -105,37 +86,12 @@
         <button id="back-to-home-1" class="btn">戻る</button>
     </div>
 
-    <!-- ふたりモード -->
-    <div id="two-player-mode" class="container screen">
-        <h2>ふたりモード</h2>
-        <div class="split-screen">
-            <!-- 相手用（180度回転） -->
-            <div class="player-screen rotated">
-                <h3>相手</h3>
-                <div id="opponent-scores"></div>
-            </div>
-            <!-- 自分用 -->
-            <div class="player-screen">
-                <h3>自分</h3>
-                <div id="player-scores"></div>
-            </div>
-        </div>
-        <button id="back-to-home-2" class="btn">戻る</button>
-    </div>
-
     <script>
         // 画面要素の取得
         const homeScreen = document.getElementById('home-screen');
         const singlePlayerMode = document.getElementById('single-player-mode');
-        const twoPlayerMode = document.getElementById('two-player-mode');
-        const singlePlayerButton = document.getElementById('single-player');
-        const twoPlayerButton = document.getElementById('two-player');
-        const backToHome1 = document.getElementById('back-to-home-1');
-        const backToHome2 = document.getElementById('back-to-home-2');
-
         const singlePlayerScores = document.getElementById('single-player-scores');
-        const playerScores = document.getElementById('player-scores');
-        const opponentScores = document.getElementById('opponent-scores');
+        const backToHome1 = document.getElementById('back-to-home-1');
 
         let months = 6; // デフォルトは6ヶ月
 
@@ -143,42 +99,28 @@
         document.getElementById('six-months').addEventListener('click', function() {
             months = 6;
             console.log("6ヶ月が選択されました");
+            switchToSinglePlayerMode();
         });
 
         // 12ヶ月ボタンをクリックしたとき
         document.getElementById('twelve-months').addEventListener('click', function() {
             months = 12;
             console.log("12ヶ月が選択されました");
+            switchToSinglePlayerMode();
         });
 
         // ひとりモードに切り替える
-        singlePlayerButton.addEventListener('click', function() {
+        function switchToSinglePlayerMode() {
             homeScreen.style.display = 'none';
             singlePlayerMode.style.display = 'block';
-            generateScoreInputs(singlePlayerScores, months); // ひとりモード用のスコア入力を生成
-        });
+            generateScoreInputs(singlePlayerScores, months); // スコア入力フィールドを生成
+        }
 
-        // ふたりモードに切り替える
-        twoPlayerButton.addEventListener('click', function() {
-            homeScreen.style.display = 'none';
-            twoPlayerMode.style.display = 'block';
-            generateScoreInputs(playerScores, months); // 自分用のスコア入力を生成
-            generateScoreInputs(opponentScores, months); // 相手用のスコア入力を生成
-        });
-
-        // ホームに戻る (ひとりモード)
+        // ホームに戻る
         backToHome1.addEventListener('click', function() {
             singlePlayerMode.style.display = 'none';
             homeScreen.style.display = 'block';
             singlePlayerScores.innerHTML = ''; // フォームのリセット
-        });
-
-        // ホームに戻る (ふたりモード)
-        backToHome2.addEventListener('click', function() {
-            twoPlayerMode.style.display = 'none';
-            homeScreen.style.display = 'block';
-            playerScores.innerHTML = ''; // フォームのリセット
-            opponentScores.innerHTML = ''; // フォームのリセット
         });
 
         // スコア入力フィールドを生成する関数
@@ -188,7 +130,7 @@
                 const div = document.createElement('div');
                 div.classList.add('score-input');
                 div.innerHTML = `
-                    <label>${i}月のスコア:</label> <!-- 「1月」形式に修正 -->
+                    <label>${i}月のスコア:</label> <!-- 1月のスコア -->
                     <input type="number" name="month-${i}-score" placeholder="スコアを入力">
                 `;
                 container.appendChild(div);

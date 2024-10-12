@@ -12,7 +12,8 @@
             background-repeat: no-repeat;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* 上から中央揃えに変更 */
+            padding: 40px 0; /* 上下の余白を追加 */
             height: 100vh;
             overflow-y: auto; /* ページ全体のスクロールを有効に */
         }
@@ -25,8 +26,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 90%;
             max-width: 400px;
-            margin: 0 auto; /* 中央揃え */
-            /* overflow-y: auto; 白枠内のスクロールを無効化 */
+            margin: 20px auto; /* 上下に余白を追加 */
         }
 
         .screen {
@@ -41,14 +41,14 @@
             background-color: #d4a373;
             color: white;
             padding: 10px;
-            margin: 10px auto; /* 中央揃え */
+            margin: 10px auto;
             border: none;
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
             text-align: center;
-            width: 80%;  /* ボタンの幅を適切に */
-            height: 60px; /* ボタンの高さを調整 */
+            width: 80%;  
+            height: 60px;
         }
 
         .btn.transparent {
@@ -62,15 +62,14 @@
         .score-display {
             font-size: 24px;
             margin-bottom: 20px;
-            text-align: center; /* スコア表示も中央揃え */
         }
 
         .keypad {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* テンキーの列を3つに設定 */
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             justify-items: center;
-            padding: 0 20px; /* 余白の調整 */
+            padding: 0 20px;
         }
 
         .keypad .btn {
@@ -81,16 +80,16 @@
 
         .month-buttons-6 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 6ヶ月は2列×3段 */
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin: 0 auto; /* 中央揃え */
+            margin: 0 auto;
         }
 
         .month-buttons-12 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 12ヶ月は4列×3段 */
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            margin: 0 auto; /* 中央揃え */
+            margin: 0 auto;
         }
 
         .current-month {
@@ -116,7 +115,7 @@
         h1, h2 {
             color: #444;
             margin-bottom: 20px;
-            text-align: center; /* 見出しも中央揃え */
+            text-align: center;
         }
     </style>
 </head>
@@ -171,18 +170,16 @@
         // 6ヶ月ボタンをクリックしたとき
         document.getElementById('six-months').addEventListener('click', function() {
             months = 6;
-            document.getElementById('months-count').textContent = months; // 月数表示を更新
-            monthButtonsContainer.className = 'month-buttons-6'; // 6ヶ月モードのレイアウトに切り替え
-            console.log("6ヶ月が選択されました");
+            document.getElementById('months-count').textContent = months;
+            monthButtonsContainer.className = 'month-buttons-6';
             switchToSinglePlayerMode();
         });
 
         // 12ヶ月ボタンをクリックしたとき
         document.getElementById('twelve-months').addEventListener('click', function() {
             months = 12;
-            document.getElementById('months-count').textContent = months; // 月数表示を更新
-            monthButtonsContainer.className = 'month-buttons-12'; // 12ヶ月モードのレイアウトに切り替え
-            console.log("12ヶ月が選択されました");
+            document.getElementById('months-count').textContent = months;
+            monthButtonsContainer.className = 'month-buttons-12';
             switchToSinglePlayerMode();
         });
 
@@ -190,20 +187,19 @@
         function switchToSinglePlayerMode() {
             homeScreen.classList.remove('active');
             singlePlayerMode.classList.add('active');
-            scores = Array(months).fill(null);  // スコアをリセット
-            generateMonthButtons(months); // 月ボタンを生成
-            updateCurrentMonthDisplay(); // デフォルトの月を表示
+            scores = Array(months).fill(null);
+            generateMonthButtons(months);
+            updateCurrentMonthDisplay();
         }
 
         // スコア入力フィールドを生成する関数
         function generateMonthButtons(months) {
-            monthButtonsContainer.innerHTML = ''; // リセット
+            monthButtonsContainer.innerHTML = '';
             for (let i = 1; i <= months; i++) {
                 const button = document.createElement('button');
                 button.classList.add('btn');
                 button.textContent = `${i}月`;
 
-                // スコアが入力済みかどうかで透明度を変更
                 if (scores[i - 1] !== null) {
                     button.classList.add('solid');
                 } else {
@@ -222,7 +218,7 @@
 
         // 現在の月の表示を更新
         function updateCurrentMonthDisplay() {
-            currentMonthDisplay.textContent = `${currentMonth}月 ${currentScore !== "" ? currentScore : "-"}点`; // nullの場合は"-"
+            currentMonthDisplay.textContent = `${currentMonth}月 ${currentScore !== "" ? currentScore : "-"}点`;
         }
 
         // キーパッドの動作
@@ -231,23 +227,21 @@
                 const value = button.textContent;
 
                 if (value === '×') {
-                    currentScore = ""; // 現在のスコアをリセット
-                    scores[currentMonth - 1] = null; // nullにリセット
-                    updateMonthButtonState(); // ボタン透明度を更新
+                    currentScore = "";
+                    scores[currentMonth - 1] = null;
+                    updateMonthButtonState();
                 } else if (value === '✓') {
-                    // スコア確定
                     if (currentScore !== "" && currentScore !== "0") {
                         scores[currentMonth - 1] = parseInt(currentScore, 10);
                     } else if (currentScore === "0") {
-                        scores[currentMonth - 1] = 0; // 0もスコアとして扱う
+                        scores[currentMonth - 1] = 0;
                     }
 
                     totalScore = scores.reduce((sum, score) => sum + (score || 0), 0);
                     totalScoreDisplay.textContent = totalScore;
-                    updateMonthButtonState(); // ボタン透明度を更新
+                    updateMonthButtonState();
                 } else {
-                    // 数字を入力
-                    if (currentScore.length < 2) { // 2桁まで入力可能
+                    if (currentScore.length < 2) {
                         currentScore += value;
                     }
                 }
@@ -271,12 +265,11 @@
         // 「おわり」ボタンの処理
         document.getElementById('end-button').addEventListener('click', function() {
             if (confirm("本当に終了しますか？")) {
-                // トップに戻る処理
-                scores = Array(months).fill(null);  // スコアをリセット
+                scores = Array(months).fill(null);
                 totalScore = 0;
                 currentMonth = 1;
                 currentScore = "";
-                generateMonthButtons(months);  // ボタンを再生成
+                generateMonthButtons(months);
                 updateCurrentMonthDisplay();
                 totalScoreDisplay.textContent = totalScore;
                 homeScreen.classList.add('active');
@@ -284,7 +277,6 @@
             }
         });
 
-        // 初期表示を生成
         generateMonthButtons(months);
     </script>
 </body>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>花札 スコア記録</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Home Screen (トップ) -->
+        <div id="home-screen" class="screen">
+            <h1>花札 スコア記録</h1>
+            <div class="months-choice">
+                <button id="six-months" class="btn">6ヶ月</button>
+                <button id="twelve-months" class="btn">12ヶ月</button>
+            </div>
+            <div class="mode-choice">
+                <button id="single-player" class="btn">ひとり</button>
+                <button id="two-player" class="btn">ふたり</button>
+            </div>
+        </div>
+
+        <!-- Single Player Mode (ひとりモード) -->
+        <div id="single-player-mode" class="screen hidden">
+            <h2>ひとりモード</h2>
+            <form id="single-player-form">
+                <!-- Month Inputs will be dynamically generated here -->
+            </form>
+        </div>
+
+        <!-- Two Player Mode (ふたりモード) -->
+        <div id="two-player-mode" class="screen hidden">
+            <h2>ふたりモード</h2>
+            <div class="split-screen">
+                <!-- Opponent Input (Rotated 180°) -->
+                <div class="player-screen rotated">
+                    <h3>相手</h3>
+                    <form id="opponent-form">
+                        <!-- Opponent's Month Inputs -->
+                    </form>
+                </div>
+                <!-- Player Input -->
+                <div class="player-screen">
+                    <h3>自分</h3>
+                    <form id="player-form">
+                        <!-- Player's Month Inputs -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

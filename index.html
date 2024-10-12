@@ -33,7 +33,7 @@
             background-color: #d4a373;
             color: white;
             padding: 10px;
-            margin: 5px;
+            margin: 10px; /* ボタンの間隔を広げる */
             border: none;
             border-radius: 5px;
             font-size: 18px;
@@ -56,8 +56,9 @@
 
         .keypad {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* テンキーの列を3つに設定 */
             gap: 10px;
+            justify-items: center; /* 中央揃えにする */
         }
 
         .keypad .btn {
@@ -101,9 +102,9 @@
             <button class="btn">7</button>
             <button class="btn">8</button>
             <button class="btn">9</button>
-            <button class="btn">0</button>
-            <button class="btn">×</button>
-            <button class="btn">✓</button>
+            <button class="btn">×</button> <!-- ✖︎ -->
+            <button class="btn">0</button> <!-- 0 -->
+            <button class="btn">✓</button> <!-- ✔︎ -->
         </div>
         <button class="end-button">おわり</button>
     </div>
@@ -111,7 +112,7 @@
     <script>
         let totalScore = 0;
         const months = 12;  // 6ヶ月または12ヶ月
-        let scores = Array(months).fill(null);  // 各月のスコア
+        let scores = Array(months).fill(null);  // 各月のスコア (null は未入力)
         let currentMonth = null;
         let currentScore = "";
 
@@ -121,6 +122,7 @@
 
         // 月ボタンを生成
         function createMonthButtons() {
+            monthButtonsContainer.innerHTML = ''; // リセット
             for (let i = 1; i <= months; i++) {
                 const button = document.createElement('button');
                 button.classList.add('btn');
@@ -154,22 +156,33 @@
                 const value = button.textContent;
 
                 if (value === '×') {
-                    currentScore = "";
+                    currentScore = ""; // 現在のスコアをリセット
+                    scores[currentMonth - 1] = null; // 0ではなくnullにする
                 } else if (value === '✓') {
                     // スコア確定
-                    if (currentMonth !== null && currentScore !== "") {
+                    if (currentMonth !== null && currentScore !== "" && currentScore !== "0") {
                         scores[currentMonth - 1] = parseInt(currentScore, 10);
-                        totalScore = scores.reduce((sum, score) => sum + (score || 0), 0);
-                        totalScoreDisplay.textContent = totalScore;
+                    } else if (currentScore === "0") {
+                        scores[currentMonth - 1] = 0; // 0はスコアとして扱う
+                    }
 
-                        // ボタンの透明度を更新
-                        const monthButton = monthButtonsContainer.children[currentMonth - 1];
+                    totalScore = scores.reduce((sum, score) => sum + (score || 0), 0);
+                    totalScoreDisplay.textContent = totalScore;
+
+                    // ボタンの透明度を更新
+                    const monthButton = monthButtonsContainer.children[currentMonth - 1];
+                    if (scores[currentMonth - 1] !== null) {
                         monthButton.classList.remove('transparent');
                         monthButton.classList.add('solid');
+                    } else {
+                        monthButton.classList.remove('solid');
+                        monthButton.classList.add('transparent');
                     }
                 } else {
                     // 数字を入力
-                    currentScore += value;
+                    if (currentScore.length < 2) { // 2桁まで入力可能
+                        currentScore += value;
+                    }
                 }
 
                 updateCurrentMonthDisplay();

@@ -46,7 +46,8 @@
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            width: calc(100% / 4 - 20px); /* 幅をテンキーと揃える */
+            text-align: center;
+            width: 45%;  /* 幅を広げて中央揃え */
             white-space: nowrap; /* 改行を防ぐ */
         }
 
@@ -67,19 +68,25 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* テンキーの列を3つに設定 */
             gap: 10px;
-            justify-items: center; /* 中央揃えにする */
+            justify-items: center;
             padding: 0 20px; /* 余白の調整 */
         }
 
         .keypad .btn {
-            width: 100%; /* テンキーの幅を広げる */
-            height: 70px; /* 高さも増加 */
+            width: 100%;
+            height: 70px;
             font-size: 24px;
         }
 
-        .month-buttons {
+        .month-buttons-6 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2列に設定 */
+            grid-template-columns: repeat(2, 1fr); /* 6ヶ月は2列×3段 */
+            gap: 10px;
+        }
+
+        .month-buttons-12 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 12ヶ月は4列×3段 */
             gap: 10px;
         }
 
@@ -119,7 +126,7 @@
     <div id="single-player-mode" class="container screen">
         <h2>ひとりモード</h2>
         <div class="score-display">花札<span id="months-count">12</span>ヶ月　現在 <span id="total-score">0</span>点</div>
-        <div id="month-buttons" class="month-buttons">
+        <div id="month-buttons" class="month-buttons-6">
             <!-- 月ボタンがここに生成されます -->
         </div>
         <div class="current-month" id="current-month-display">1月 - 点</div> <!-- デフォルトは1月が選択 -->
@@ -158,6 +165,7 @@
         document.getElementById('six-months').addEventListener('click', function() {
             months = 6;
             document.getElementById('months-count').textContent = months; // 月数表示を更新
+            monthButtonsContainer.className = 'month-buttons-6'; // 6ヶ月モードのレイアウトに切り替え
             console.log("6ヶ月が選択されました");
             switchToSinglePlayerMode();
         });
@@ -166,6 +174,7 @@
         document.getElementById('twelve-months').addEventListener('click', function() {
             months = 12;
             document.getElementById('months-count').textContent = months; // 月数表示を更新
+            monthButtonsContainer.className = 'month-buttons-12'; // 12ヶ月モードのレイアウトに切り替え
             console.log("12ヶ月が選択されました");
             switchToSinglePlayerMode();
         });

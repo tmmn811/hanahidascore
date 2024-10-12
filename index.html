@@ -27,6 +27,7 @@
             max-width: 400px;
             max-height: 90vh;
             overflow-y: auto;
+            margin: 0 auto; /* 白背景の中央に揃える */
         }
 
         .screen {
@@ -41,13 +42,13 @@
             background-color: #d4a373;
             color: white;
             padding: 10px;
-            margin: 10px;
+            margin: 10px auto; /* 中央揃え */
             border: none;
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
             text-align: center;
-            width: 100%;  /* ボタン幅を100%にして均等に配置 */
+            width: 80%;  /* ボタンの幅を適切に */
             height: 60px; /* ボタンの高さを調整 */
         }
 
@@ -62,6 +63,7 @@
         .score-display {
             font-size: 24px;
             margin-bottom: 20px;
+            text-align: center; /* スコア表示も中央揃え */
         }
 
         .keypad {
@@ -82,17 +84,20 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* 6ヶ月は2列×3段 */
             gap: 10px;
+            margin: 0 auto; /* 中央揃え */
         }
 
         .month-buttons-12 {
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* 12ヶ月は4列×3段 */
             gap: 10px;
+            margin: 0 auto; /* 中央揃え */
         }
 
         .current-month {
             font-size: 20px;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .end-button {
@@ -104,11 +109,15 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 
         h1, h2 {
             color: #444;
             margin-bottom: 20px;
+            text-align: center; /* 見出しも中央揃え */
         }
     </style>
 </head>
@@ -124,7 +133,6 @@
 
     <!-- ひとりモード -->
     <div id="single-player-mode" class="container screen">
-        <h2>ひとりモード</h2>
         <div class="score-display">花札<span id="months-count">12</span>ヶ月　現在 <span id="total-score">0</span>点</div>
         <div id="month-buttons" class="month-buttons-6">
             <!-- 月ボタンがここに生成されます -->

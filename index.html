@@ -6,7 +6,7 @@
     <title>花札 スコア記録</title>
     <style>
         body {
-            background-image: url('bg.png');
+            background-image: url('ベージュ 和風 和柄の背景 インスタグラムストーリー.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -25,6 +25,14 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
         .btn {
             background-color: #d4a373;
             color: white;
@@ -38,14 +46,64 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="home-screen" class="container screen active">
         <h1>花札 スコア記録</h1>
-        <button class="btn">6ヶ月</button>
-        <button class="btn">12ヶ月</button>
+        <button id="six-months" class="btn">6ヶ月</button>
+        <button id="twelve-months" class="btn">12ヶ月</button>
         <br>
-        <button class="btn">ひとり</button>
-        <button class="btn">ふたり</button>
+        <button id="single-player" class="btn">ひとり</button>
+        <button id="two-player" class="btn">ふたり</button>
     </div>
+
+    <!-- ひとりモード -->
+    <div id="single-player-mode" class="container screen">
+        <h2>ひとりモード</h2>
+        <p>月ごとのスコアを入力してください。</p>
+        <!-- スコア入力フィールドは後で追加 -->
+        <button id="back-to-home-1" class="btn">戻る</button>
+    </div>
+
+    <!-- ふたりモード -->
+    <div id="two-player-mode" class="container screen">
+        <h2>ふたりモード</h2>
+        <p>それぞれのスコアを入力してください。</p>
+        <!-- スコア入力フィールドは後で追加 -->
+        <button id="back-to-home-2" class="btn">戻る</button>
+    </div>
+
+    <script>
+        // 画面要素の取得
+        const homeScreen = document.getElementById('home-screen');
+        const singlePlayerMode = document.getElementById('single-player-mode');
+        const twoPlayerMode = document.getElementById('two-player-mode');
+        const singlePlayerButton = document.getElementById('single-player');
+        const twoPlayerButton = document.getElementById('two-player');
+        const backToHome1 = document.getElementById('back-to-home-1');
+        const backToHome2 = document.getElementById('back-to-home-2');
+
+        // ひとりモードに切り替える
+        singlePlayerButton.addEventListener('click', function() {
+            homeScreen.classList.remove('active');
+            singlePlayerMode.classList.add('active');
+        });
+
+        // ふたりモードに切り替える
+        twoPlayerButton.addEventListener('click', function() {
+            homeScreen.classList.remove('active');
+            twoPlayerMode.classList.add('active');
+        });
+
+        // ホームに戻る (ひとりモード)
+        backToHome1.addEventListener('click', function() {
+            singlePlayerMode.classList.remove('active');
+            homeScreen.classList.add('active');
+        });
+
+        // ホームに戻る (ふたりモード)
+        backToHome2.addEventListener('click', function() {
+            twoPlayerMode.classList.remove('active');
+            homeScreen.classList.add('active');
+        });
+    </script>
 </body>
-</html>
 </html>

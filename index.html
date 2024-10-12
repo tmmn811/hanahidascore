@@ -50,6 +50,21 @@
             color: #444;
             margin-bottom: 20px;
         }
+
+        .score-input {
+            margin-bottom: 10px;
+        }
+
+        .score-input label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .score-input input {
+            width: 80%;
+            padding: 5px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +82,7 @@
     <div id="single-player-mode" class="container screen">
         <h2>ひとりモード</h2>
         <p>月ごとのスコアを入力してください。</p>
+        <div id="single-player-scores"></div> <!-- スコア入力フィールド -->
         <button id="back-to-home-1" class="btn">戻る</button>
     </div>
 
@@ -74,6 +90,7 @@
     <div id="two-player-mode" class="container screen">
         <h2>ふたりモード</h2>
         <p>それぞれのスコアを入力してください。</p>
+        <div id="two-player-scores"></div> <!-- スコア入力フィールド -->
         <button id="back-to-home-2" class="btn">戻る</button>
     </div>
 
@@ -87,32 +104,64 @@
         const backToHome1 = document.getElementById('back-to-home-1');
         const backToHome2 = document.getElementById('back-to-home-2');
 
-        // 初期画面はホーム画面を表示
-        homeScreen.style.display = 'block';
+        const singlePlayerScores = document.getElementById('single-player-scores');
+        const twoPlayerScores = document.getElementById('two-player-scores');
+
+        let months = 6; // デフォルトは6ヶ月
+
+        // 6ヶ月ボタンをクリックしたとき
+        document.getElementById('six-months').addEventListener('click', function() {
+            months = 6;
+            console.log("6ヶ月が選択されました");
+        });
+
+        // 12ヶ月ボタンをクリックしたとき
+        document.getElementById('twelve-months').addEventListener('click', function() {
+            months = 12;
+            console.log("12ヶ月が選択されました");
+        });
 
         // ひとりモードに切り替える
         singlePlayerButton.addEventListener('click', function() {
             homeScreen.style.display = 'none';
             singlePlayerMode.style.display = 'block';
+            generateScoreInputs(singlePlayerScores, months); // ひとりモード用のスコア入力を生成
         });
 
         // ふたりモードに切り替える
         twoPlayerButton.addEventListener('click', function() {
             homeScreen.style.display = 'none';
             twoPlayerMode.style.display = 'block';
+            generateScoreInputs(twoPlayerScores, months); // ふたりモード用のスコア入力を生成
         });
 
         // ホームに戻る (ひとりモード)
         backToHome1.addEventListener('click', function() {
             singlePlayerMode.style.display = 'none';
             homeScreen.style.display = 'block';
+            singlePlayerScores.innerHTML = ''; // フォームのリセット
         });
 
         // ホームに戻る (ふたりモード)
         backToHome2.addEventListener('click', function() {
             twoPlayerMode.style.display = 'none';
             homeScreen.style.display = 'block';
+            twoPlayerScores.innerHTML = ''; // フォームのリセット
         });
+
+        // スコア入力フィールドを生成する関数
+        function generateScoreInputs(container, months) {
+            container.innerHTML = ''; // 既存のフィールドをクリア
+            for (let i = 1; i <= months; i++) {
+                const div = document.createElement('div');
+                div.classList.add('score-input');
+                div.innerHTML = `
+                    <label>月${i} のスコア:</label>
+                    <input type="number" name="month-${i}-score" placeholder="スコアを入力">
+                `;
+                container.appendChild(div);
+            }
+        }
     </script>
 </body>
 </html>
